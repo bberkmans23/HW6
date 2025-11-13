@@ -68,7 +68,22 @@ public class ProblemSolutions {
       //
       // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
       //
-      return -1;
+      PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+
+        for (int b : boulders) {
+            pq.add(b);
+        }
+    
+        while (pq.size() > 1) {
+            int y = pq.poll();  // heaviest
+            int x = pq.poll();  // second heaviest
+    
+            if (y != x) {
+                pq.add(y - x);
+            }
+        }
+    
+        return pq.isEmpty() ? 0 : pq.peek();
   }
 
 
@@ -94,8 +109,23 @@ public class ProblemSolutions {
         //
         //  YOUR CODE GOES HERE
         //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+        HashMap<String, Integer> freq = new HashMap<>();
 
+        for (String s : input) {
+            freq.put(s, freq.getOrDefault(s, 0) + 1);
+        }
+    
+        ArrayList<String> result = new ArrayList<>();
+    
+        for (String key : freq.keySet()) {
+            if (freq.get(key) > 1) {
+                result.add(key);
+            }
+        }
+    
+        Collections.sort(result);
+    
+        return result;
     }
 
 
@@ -134,6 +164,24 @@ public class ProblemSolutions {
         //
         //  YOUR CODE GOES HERE
         //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+        HashSet<Integer> seen = new HashSet<>();
+        HashSet<String> pairs = new HashSet<>();
+    
+        for (int num : input) {
+            int complement = k - num;
+    
+            if (seen.contains(complement)) {
+                int a = Math.min(num, complement);
+                int b = Math.max(num, complement);
+                pairs.add("(" + a + ", " + b + ")");
+            }
+    
+            seen.add(num);
+        }
+    
+        ArrayList<String> result = new ArrayList<>(pairs);
+        Collections.sort(result);
+    
+        return result;
     }
 }
